@@ -7,8 +7,9 @@ package business.control.autenticacao.factory;
 
 import business.control.autenticacao.Autenticacao;
 import business.control.autenticacao.AutenticacoesFactory;
+import business.control.autenticacao.factory.APIs.API;
 import business.control.autenticacao.factory.APIs.Email;
-import business.control.autenticacao.factory.APIs.Sigaa;
+import business.control.autenticacao.factory.APIs.adapter.AdapterSigaa;
 import business.control.autenticacao.tipos.AuthAdministrador;
 
 /**
@@ -17,6 +18,7 @@ import business.control.autenticacao.tipos.AuthAdministrador;
  */
 public class FacAuthAdministrador implements AutenticacoesFactory{
     AuthAdministrador adm;
+    API api;
     @Override
     public Autenticacao autenticarEmail(String email, String senha) {
         adm = new AuthAdministrador();
@@ -27,7 +29,9 @@ public class FacAuthAdministrador implements AutenticacoesFactory{
     @Override
     public Autenticacao autenticarSigaa(String login, String senha) {
         adm = new AuthAdministrador();
-        adm.setStatus(new Sigaa().autenticar(login, senha));
+        api = new AdapterSigaa();
+        
+        adm.setStatus(api.autenticar(login, senha));
         return adm;
     }
 }

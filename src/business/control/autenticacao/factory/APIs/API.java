@@ -7,13 +7,8 @@ package business.control.autenticacao.factory.APIs;
 
 /**
  *
- * @author Rene e Luana
+ * @author Ruan
  */
-public class Sigaa {
-    public boolean autenticar(String login, String senha){
-        if(login.equals(senha)){
-            return true;
-        }
-        return false;
-    }
+public interface API {
+    boolean autenticar(String login, String senha);
 }

@@ -7,8 +7,10 @@ package business.control.autenticacao.factory;
 
 import business.control.autenticacao.Autenticacao;
 import business.control.autenticacao.AutenticacoesFactory;
+import business.control.autenticacao.factory.APIs.API;
 import business.control.autenticacao.factory.APIs.Email;
-import business.control.autenticacao.factory.APIs.Sigaa;
+import business.control.autenticacao.factory.APIs.adapter.AdapterSigaa;
+import business.control.autenticacao.factory.APIs.adapter.Sigaa;
 import business.control.autenticacao.tipos.AuthMotorista;
 /**
  *
@@ -16,6 +18,7 @@ import business.control.autenticacao.tipos.AuthMotorista;
  */
 public class FacAuthMotorista implements AutenticacoesFactory{
     AuthMotorista motorista;
+    API api;
     @Override
     public Autenticacao autenticarEmail(String email, String senha) {
         motorista = new AuthMotorista();
@@ -26,7 +29,9 @@ public class FacAuthMotorista implements AutenticacoesFactory{
     @Override
     public Autenticacao autenticarSigaa(String login, String senha) {
         motorista = new AuthMotorista();
-        motorista.setStatus(new Sigaa().autenticar(login, senha));
+        api = new AdapterSigaa();
+        
+        motorista.setStatus(api.autenticar(login, senha));
         return motorista;
     }
 }

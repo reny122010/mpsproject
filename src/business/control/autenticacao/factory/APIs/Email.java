@@ -11,9 +11,6 @@ package business.control.autenticacao.factory.APIs;
  */
 public class Email {
     public boolean autenticar(String email, String senha){
-        if(email.equals(senha)){
-            return true;
-        }
-        return false;
+        return email.equals(senha);
     }
 }
