@@ -5,6 +5,8 @@
  */
 package business.model;
 
+import business.memento.MotoristaVeiculos;
+import business.memento.MementoVeiculo;
 import business.state.MotoristaDisponivel;
 import business.state.MotoristaState;
 import java.util.ArrayList;
