@@ -23,6 +23,8 @@ public class FacadeCRUD {
     private boolean authStatus;
     ETipoUser authTipo;
     
+    private static FacadeCRUD instancia;
+    
     private Caroneiro caroneiro;
     private Motorista motorista;
     private Administrador administrador;
@@ -30,8 +32,20 @@ public class FacadeCRUD {
     private AutenticacoesFactory FacAutenticacoes;
     private Autenticacao autenticacao;
     
-    public void autenticarMotoristaSigaa(String login, String senha) throws InvalidAuthException{
+   public static FacadeCRUD getFacade(){
+        if(instancia == null){
+            System.err.println("Instanciou");
+            instancia = new FacadeCRUD();
+        }
+            return instancia;
+    }
+    public FacadeCRUD(){
+        FacAutenticacoes = new FacAuthAdministrador();
         FacAutenticacoes = new FacAuthMotorista();
+        FacAutenticacoes = new FacAuthCarona();
+    }
+    
+    public void autenticarMotoristaSigaa(String login, String senha) throws InvalidAuthException{
         autenticacao = FacAutenticacoes.autenticarSigaa(login, senha);
         authStatus = autenticacao.verificarAutenticacao();
         verificarAuth();
@@ -40,7 +54,6 @@ public class FacadeCRUD {
     }
     
     public void autenticarCaronaSigaa(String login, String senha) throws InvalidAuthException{
-        FacAutenticacoes = new FacAuthCarona();
         autenticacao = FacAutenticacoes.autenticarSigaa(login, senha);
         authStatus = autenticacao.verificarAutenticacao();
         verificarAuth();
@@ -49,7 +62,6 @@ public class FacadeCRUD {
     }
     
     public void autenticarMotoristaEmail(String email, String senha) throws InvalidAuthException{
-        FacAutenticacoes = new FacAuthMotorista();
         autenticacao = FacAutenticacoes.autenticarEmail(email, senha);
         authStatus = autenticacao.verificarAutenticacao();
         verificarAuth();
@@ -58,7 +70,6 @@ public class FacadeCRUD {
     }
     
     public void autenticarCaronaEmail(String email, String senha) throws InvalidAuthException{
-        FacAutenticacoes = new FacAuthCarona();
         autenticacao = FacAutenticacoes.autenticarEmail(email, senha);
         authStatus = autenticacao.verificarAutenticacao();
         verificarAuth();
@@ -67,7 +78,6 @@ public class FacadeCRUD {
     }
     
     public void autenticarAdministradorEmail(String email, String senha) throws InvalidAuthException{
-        FacAutenticacoes = new FacAuthAdministrador();
         autenticacao = FacAutenticacoes.autenticarEmail(email, senha);
         authStatus = autenticacao.verificarAutenticacao();
         verificarAuth();
