@@ -12,21 +12,21 @@ import java.util.ArrayList;
  * @author Josue
  */
 public class MotoristaVeiculos {
-    protected ArrayList<MementoMotorista> estados;
+    protected ArrayList<MementoVeiculo> estados;
     
     public MotoristaVeiculos(){
-        this.estados = new ArrayList<MementoMotorista>();
+        this.estados = new ArrayList<MementoVeiculo>();
     }
     
-    public void adicionar_memento(MementoMotorista memento){
+    public void adicionar_memento(MementoVeiculo memento){
         this.estados.add(memento);
     }
     
-    public MementoMotorista getUltimoSalvo(){
+    public MementoVeiculo getUltimoSalvo(){
         if(this.estados.isEmpty()){
             return null;
         }else{
-            MementoMotorista estado_salvo = this.estados.get(this.estados.size() - 1);
+            MementoVeiculo estado_salvo = this.estados.get(this.estados.size() - 1);
             this.estados.remove(this.estados.size() - 1);
             return estado_salvo;
         }
