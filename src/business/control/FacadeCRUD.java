@@ -13,7 +13,6 @@ import business.control.autenticacao.factory.FacAuthMotorista;
 import business.model.Administrador;
 import business.model.Caroneiro;
 import business.model.Motorista;
-import utils.StringUtils;
 
 /**
  *
@@ -22,6 +21,8 @@ import utils.StringUtils;
 public class FacadeCRUD {
     private boolean authStatus;
     ETipoUser authTipo;
+    
+    Exceptions exp;
     
     private static FacadeCRUD instancia;
     
@@ -43,12 +44,13 @@ public class FacadeCRUD {
         FacAutenticacoes = new FacAuthAdministrador();
         FacAutenticacoes = new FacAuthMotorista();
         FacAutenticacoes = new FacAuthCarona();
+        exp = new Exceptions();
     }
     
     public void autenticarMotoristaSigaa(String login, String senha) throws InvalidAuthException{
         autenticacao = FacAutenticacoes.autenticarSigaa(login, senha);
         authStatus = autenticacao.verificarAutenticacao();
-        verificarAuth();
+        exp.verificarAuth(authStatus);
         authTipo = ETipoUser.motorista;
         motorista = new Motorista();
     }
@@ -56,7 +58,7 @@ public class FacadeCRUD {
     public void autenticarCaronaSigaa(String login, String senha) throws InvalidAuthException{
         autenticacao = FacAutenticacoes.autenticarSigaa(login, senha);
         authStatus = autenticacao.verificarAutenticacao();
-        verificarAuth();
+        exp.verificarAuth(authStatus);
         authTipo = ETipoUser.carona;
         caroneiro = new Caroneiro();
     }
@@ -64,7 +66,7 @@ public class FacadeCRUD {
     public void autenticarMotoristaEmail(String email, String senha) throws InvalidAuthException{
         autenticacao = FacAutenticacoes.autenticarEmail(email, senha);
         authStatus = autenticacao.verificarAutenticacao();
-        verificarAuth();
+        exp.verificarAuth(authStatus);
         authTipo = ETipoUser.motorista;
         motorista = new Motorista();
     }
@@ -72,7 +74,7 @@ public class FacadeCRUD {
     public void autenticarCaronaEmail(String email, String senha) throws InvalidAuthException{
         autenticacao = FacAutenticacoes.autenticarEmail(email, senha);
         authStatus = autenticacao.verificarAutenticacao();
-        verificarAuth();
+        exp.verificarAuth(authStatus);
         authTipo = ETipoUser.carona;
         caroneiro = new Caroneiro();
     }
@@ -80,99 +82,76 @@ public class FacadeCRUD {
     public void autenticarAdministradorEmail(String email, String senha) throws InvalidAuthException{
         autenticacao = FacAutenticacoes.autenticarEmail(email, senha);
         authStatus = autenticacao.verificarAutenticacao();
-        verificarAuth();
+        authTipo = ETipoUser.administrador;
+        exp.verificarAuth(authStatus);
         administrador = new Administrador();
-    }
-    
-    private void verificarAuth() throws InvalidAuthException{
-        if(!authStatus){
-            throw new InvalidAuthException(StringUtils.ERRO_AUTH);
-        }
-    }
-    
-    private void verificarAuthCarona() throws InvalidAuthException{
-        if(authTipo != ETipoUser.carona  || authTipo == null){
-            throw new InvalidAuthException(StringUtils.ERRO_PRIVILEGIO_CARONA);
-        }
-    }
-    
-    private void verificarAuthMotorista() throws InvalidAuthException{
-        if(authTipo != ETipoUser.motorista  || authTipo == null){
-            throw new InvalidAuthException(StringUtils.ERRO_PRIVILEGIO_MOTORISTA);
-        }
-    }
-    
-    private void verificarAuthAdministrador() throws InvalidAuthException{
-        if(authTipo != ETipoUser.administrador  || authTipo == null){
-            throw new InvalidAuthException(StringUtils.ERRO_PRIVILEGIO_ADMINISTRADOR);
-        }
     }
     //Métodos Carona
     public void pedirCarona() throws InvalidAuthException{
-        verificarAuthCarona();
+        exp.verificarAuthCarona(authStatus,authTipo);
         caroneiro.pedircarona();
     }
     
     public void negarCarona() throws InvalidAuthException{
-        verificarAuthCarona();
+        exp.verificarAuthCarona(authStatus,authTipo);
         caroneiro.negarCarona();
     }
     public void concluirCarona() throws InvalidAuthException{
-        verificarAuthCarona();
+        exp.verificarAuthCarona(authStatus,authTipo);
         caroneiro.concluirCarona();
     }
     public void avaliarCarona(int nota) throws InvalidAuthException{
-        verificarAuthCarona();
+        exp.verificarAuthCarona(authStatus,authTipo);
         caroneiro.avaliarCarona(nota);
     }
     
     //Métodos motorista
     void aceitar_carona() throws InvalidAuthException{
-        verificarAuthMotorista();
+        exp.verificarAuthMotorista(authStatus,authTipo);
     }
     
     void recusar_carona() throws InvalidAuthException{
-        verificarAuthMotorista();
+        exp.verificarAuthMotorista(authStatus,authTipo);
     }
     
     boolean adicionar_veiculo(String cor, String placa, String modelo) throws InvalidAuthException{
-        verificarAuthMotorista();
+        exp.verificarAuthMotorista(authStatus,authTipo);
         return motorista.adicionar_veiculo(cor, placa, modelo);
     }
 
     boolean deletar_veiculo(String placa) throws InvalidAuthException{
-        verificarAuthMotorista();
+        exp.verificarAuthMotorista(authStatus,authTipo);
         return deletar_veiculo(placa);
     }
     
     void tracar_rota() throws InvalidAuthException{
-       verificarAuthMotorista();
+       exp.verificarAuthMotorista(authStatus,authTipo);
        motorista.tracar_rota();
     }
     
     void finalizar_viagem() throws InvalidAuthException{
-        verificarAuthMotorista();
+        exp.verificarAuthMotorista(authStatus,authTipo);
         motorista.finalizar_viagem();
     }
     
     void alterar_rota() throws InvalidAuthException{
-        verificarAuthMotorista();
+        exp.verificarAuthMotorista(authStatus,authTipo);
         motorista.alterar_rota();
     }
     
     void cancelar_rota() throws InvalidAuthException{
-        verificarAuthMotorista();
+        exp.verificarAuthMotorista(authStatus,authTipo);
         motorista.cancelar_rota();
     }
     
     //Métodos Administrador
     public String gerarRelatorioUso() throws InvalidAuthException{
-        verificarAuthAdministrador();
+        exp.verificarAuthAdministrador(authStatus,authTipo);
         return administrador.gerarRelatorioUso();
     }
     
     public String gerarRelatorioRota() throws InvalidAuthException{
-        verificarAuthAdministrador();
+        exp.verificarAuthAdministrador(authStatus,authTipo);
         return administrador.gerarRelatorioRota();
     }
 }
