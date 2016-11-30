@@ -10,7 +10,6 @@ import business.control.autenticacao.AutenticacoesFactory;
 import business.control.autenticacao.factory.APIs.API;
 import business.control.autenticacao.factory.APIs.Email;
 import business.control.autenticacao.factory.APIs.adapter.AdapterSigaa;
-import business.control.autenticacao.factory.APIs.adapter.Sigaa;
 import business.control.autenticacao.tipos.AuthMotorista;
 /**
  *

@@ -86,6 +86,7 @@ public class FacadeCRUD {
         exp.verificarAuth(authStatus);
         administrador = new Administrador();
     }
+    
     //Métodos Carona
     public void pedirCarona() throws InvalidAuthException{
         exp.verificarAuthCarona(authStatus,authTipo);
