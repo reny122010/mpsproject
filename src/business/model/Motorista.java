@@ -16,10 +16,12 @@ import java.util.ArrayList;
 public class Motorista extends Usuario{
     MotoristaState stateMotorista;
     ArrayList<Veiculo> listVeiculos; 
+    MotoristaVeiculos motor_veiculos;
     
     public Motorista(){
         stateMotorista = new MotoristaDisponivel();
         listVeiculos = new ArrayList();
+        motor_veiculos = new MotoristaVeiculos();
     }
     
     MotoristaState getState(){
@@ -34,12 +36,16 @@ public class Motorista extends Usuario{
         stateMotorista.aceitar_carona();
     }
     public boolean adicionar_veiculo(String cor, String placa, String modelo){
+        
         Veiculo carro = new Veiculo(cor, placa, modelo);
+        motor_veiculos.adicionar_memento(new MementoVeiculo(carro));
         listVeiculos.add(carro);
         stateMotorista.adicionar_veiculo();
         return true;
     }
-    
+    public void desfazer_veiculo(){
+        listVeiculos.add(motor_veiculos.getUltimoSalvo().getMementoMotorista());
+    }
     public boolean deletar_veiculo(String placa){
         for(int i = 0; i < listVeiculos.size(); i++)
         {
