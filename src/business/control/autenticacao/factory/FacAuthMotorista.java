@@ -18,10 +18,12 @@ import business.control.autenticacao.tipos.AuthMotorista;
 public class FacAuthMotorista implements AutenticacoesFactory{
     AuthMotorista motorista;
     API api;
+    Email email;
     @Override
     public Autenticacao autenticarEmail(String email, String senha) {
         motorista = new AuthMotorista();
-        motorista.setStatus(new Email().autenticar(email, senha));
+        this.email = new Email();
+        motorista.setStatus(this.email.autenticar(email, senha));
         return motorista;
     }
 

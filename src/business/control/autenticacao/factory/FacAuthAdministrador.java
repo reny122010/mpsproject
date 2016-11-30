@@ -19,10 +19,13 @@ import business.control.autenticacao.tipos.AuthAdministrador;
 public class FacAuthAdministrador implements AutenticacoesFactory{
     AuthAdministrador adm;
     API api;
+    Email email;
+    
     @Override
     public Autenticacao autenticarEmail(String email, String senha) {
         adm = new AuthAdministrador();
-        adm.setStatus(new Email().autenticar(email, senha));
+        this.email = new Email();
+        adm.setStatus(this.email.autenticar(email, senha));
         return adm;
     }
 

@@ -19,10 +19,13 @@ import business.control.autenticacao.tipos.AuthCarona;
 public class FacAuthCarona implements AutenticacoesFactory{
     AuthCarona carona;
     API api;
+    Email email;
+    
     @Override
     public Autenticacao autenticarEmail(String email, String senha) {
         carona = new AuthCarona();
-        carona.setStatus(new Email().autenticar(email, senha));
+        this.email = new Email();
+        carona.setStatus(this.email.autenticar(email, senha));
         return carona;
     }
 
