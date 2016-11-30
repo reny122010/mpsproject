@@ -9,7 +9,7 @@ import business.control.autenticacao.Autenticacao;
 import business.control.autenticacao.AutenticacoesFactory;
 import business.control.autenticacao.factory.APIs.API;
 import business.control.autenticacao.factory.APIs.Email;
-import business.control.autenticacao.factory.APIs.adapter.Sigaa;
+import business.control.autenticacao.factory.APIs.adapter.AdapterSigaa;
 import business.control.autenticacao.tipos.AuthCarona;
 
 /**
@@ -29,7 +29,8 @@ public class FacAuthCarona implements AutenticacoesFactory{
     @Override
     public Autenticacao autenticarSigaa(String login, String senha) {
         carona = new AuthCarona();
-        api = new Sigaa();
+        api = new AdapterSigaa();
+        
         
         carona.setStatus(api.autenticar(login, senha));
         return carona;
